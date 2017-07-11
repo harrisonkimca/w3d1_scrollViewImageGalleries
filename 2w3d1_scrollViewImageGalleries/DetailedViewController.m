@@ -9,9 +9,8 @@
 #import "DetailedViewController.h"
 
 @interface DetailedViewController ()
-
-@property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
-@property (strong, nonatomic) UIImageView *imageView;
+@property (weak, nonatomic) IBOutlet UIScrollView *detailedScrollView;
+@property (strong, nonatomic) UIImageView *detailedImageView;
 
 @end
 
@@ -19,36 +18,37 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    [self setUpScrollView];
-    self.scrollView.delegate = self;
+    [self setUpDetailedScrollView];
+    self.detailedScrollView.delegate = self;
 }
 
-- (void)setUpScrollView
+- (void)setUpDetailedScrollView
 {
-    [self.view addSubview:self.scrollView];
-    self.imageView.translatesAutoresizingMaskIntoConstraints = NO;
-    self.imageView.userInteractionEnabled = YES;
+    [self.view addSubview:self.detailedScrollView];
+    self.detailedImageView.translatesAutoresizingMaskIntoConstraints = NO;
+    self.detailedImageView.userInteractionEnabled = YES;
     
-    self.imageView = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"Lighthouse-zoomed"]];
-    [self.scrollView addSubview:self.imageView];
+    // replace hardcoded picture with myImage property now
+    self.detailedImageView = [[UIImageView alloc]initWithImage:self.myImage];
+    [self.detailedScrollView addSubview:self.detailedImageView];
 
-    [self.imageView.topAnchor constraintEqualToAnchor:self.scrollView.topAnchor].active = YES;
-    [self.imageView.bottomAnchor constraintEqualToAnchor:self.scrollView.bottomAnchor].active = YES;
-    [self.imageView.leadingAnchor constraintEqualToAnchor:self.scrollView.leadingAnchor].active = YES;
-    [self.imageView.trailingAnchor constraintEqualToAnchor:self.scrollView.trailingAnchor].active = YES;
+    [self.detailedImageView.topAnchor constraintEqualToAnchor:self.detailedScrollView.topAnchor].active = YES;
+    [self.detailedImageView.bottomAnchor constraintEqualToAnchor:self.detailedScrollView.bottomAnchor].active = YES;
+    [self.detailedImageView.leadingAnchor constraintEqualToAnchor:self.detailedScrollView.leadingAnchor].active = YES;
+    [self.detailedImageView.trailingAnchor constraintEqualToAnchor:self.detailedScrollView.trailingAnchor].active = YES;
     
-    // 
-    self.scrollView.contentSize = self.imageView.bounds.size;
-    self.scrollView.minimumZoomScale = 0.5;
-    self.scrollView.maximumZoomScale = 2.0;
+    // set the content size
+    self.detailedScrollView.contentSize = self.detailedImageView.bounds.size;
+    self.detailedScrollView.minimumZoomScale = 0.5;
+    self.detailedScrollView.maximumZoomScale = 2.0;
     
-    self.scrollView.zoomScale = 0.5;
-    self.scrollView.contentOffset = CGPointMake(500, 500);
+    self.detailedScrollView.zoomScale = 0.5;
+    self.detailedScrollView.contentOffset = CGPointMake(500, 500);
 }
 
 - (UIView*)viewForZoomingInScrollView:(UIScrollView *)scrollView
 {
-    return self.imageView;
+    return self.detailedImageView;
 }
 
 @end

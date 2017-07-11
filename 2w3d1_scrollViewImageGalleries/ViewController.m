@@ -7,6 +7,7 @@
 //
 
 #import "ViewController.h"
+#import "DetailedViewController.h"
 
 @interface ViewController ()
 
@@ -25,7 +26,70 @@
     [self setupScrollView];
     [self setupPageControl];
     self.scrollView.delegate = self;
+    UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(viewTapped:)]; // *** main
+    [self.scrollView addGestureRecognizer:tapGesture]; // *** main
 }
+
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView
+{
+    int currentPage = (int)self.scrollView.contentOffset.x / self.scrollView.frame.size.width;
+    self.pageControl.currentPage = currentPage;
+}
+
+- (void)viewTapped:(UIGestureRecognizer*)sender
+{
+    [self performSegueWithIdentifier:@"showDetailImage" sender:sender];
+    
+//    CGPoint location = [sender locationInView:self.scrollView]; // way to figure out which recognizer
+//    UIView *view = [self.scrollView hitTest:location withEvent:nil];
+//    
+//    if ([view isKindOfClass:[UIImage class]]) // way to figure out
+//    {
+//        UIImageView *imageView = (UIImageView *)view;
+//        UIImage *myImage = imageView.image;
+//        
+//        if(myImage)
+//        {
+//            [self performSegueWithIdentifier:@"showDetailImage" sender:sender]; // *** send image to prepare for segue
+//        }
+//    }
+}
+
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+{
+    if ([[segue identifier] isEqualToString:@"showDetailImage"])
+    {
+        DetailedViewController *target = [segue destinationViewController];
+        
+        CGPoint location= [sender locationInView:self.scrollView];
+        int image = location.x/self.scrollView.frame.size.width;
+        
+        if (image == 0)
+        {
+            // remember .image to drill down to UIImage
+            target.myImage = self.image1.image;
+        }
+        else if (image == 1)
+        {
+            target.myImage = self.image2.image;
+        } else
+        {
+            target.myImage = self.image3.image;
+        }
+    }
+}
+        
+    
+//    if ([segue.identifier isEqualToString:@"showDetailImage"])
+//    {
+//        DetailedViewController *detailedVC = [segue destinationViewController]; // ***
+//        
+//        if ([sender isKindOfClass:[UIImage class]])
+//        {
+//            detailedVC.myImage = sender; // *** main
+//        }
+//    }
+//}
 
 - (void)setupScrollView
 {
@@ -83,7 +147,8 @@
     [self.view bringSubviewToFront:self.pageControl];
     self.pageControl.backgroundColor = [UIColor blackColor];
     self.pageControl.alpha = 0.5;
-    self.pageControl.numberOfPages = self.scrollView.subviews.count;
+    //self.pageControl.numberOfPages = self.scrollView.subviews.count;
+    self.pageControl.numberOfPages = 3;
     CGRect frame = CGRectMake(0, self.view.bounds.size.height - 50, self.view.bounds.size.width, 50);
     self.pageControl.frame = frame;
 }

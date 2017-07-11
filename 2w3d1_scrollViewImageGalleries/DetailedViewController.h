@@ -10,4 +10,7 @@
 
 @interface DetailedViewController : UIViewController<UIScrollViewDelegate>
 
+// set property now for detailedView image
+@property (strong, nonatomic) UIImage *myImage;
+
 @end
