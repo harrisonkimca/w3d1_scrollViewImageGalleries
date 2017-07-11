@@ -1,5 +1,5 @@
 //
-//  ViewController.h
+//  DetailedViewController.h
 //  2w3d1_scrollViewImageGalleries
 //
 //  Created by Seantastic31 on 10/07/2017.
@@ -8,8 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface ViewController : UIViewController<UIScrollViewDelegate>
-
+@interface DetailedViewController : UIViewController<UIScrollViewDelegate>
 
 @end
-
